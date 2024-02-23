@@ -7,7 +7,6 @@ const ExpressError = require("../expressError");
 const User = require("../models/user");
 
 
-
 /** POST /login - login: {username, password} => {token}
  *
  * Make sure to update their last-login!
@@ -48,5 +47,6 @@ router.post('/register', async (req, res, next) => {
         return next(err);
     }
 });
+
 
 module.exports = router;
