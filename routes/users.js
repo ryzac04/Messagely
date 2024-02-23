@@ -10,12 +10,31 @@ const router = new express.Router();
  *
  **/
 
+router.get('/', async (req, res, next) => {
+    try {
+        const results = await User.all();
+        return res.json({ "users": results });
+    }
+    catch (err) {
+        return next(err);
+    }
+});
+
 /** GET /:username - get detail of users.
  *
  * => {user: {username, first_name, last_name, phone, join_at, last_login_at}}
  *
  **/
 
+router.get('/:username', async (req, res, next) => {
+    try {
+        const result = await User.get(req.params.username);
+        return res.json({ "user": result });
+    }
+    catch (err) {
+        return next(err);
+    }
+});
 
 /** GET /:username/to - get messages to user
  *
@@ -27,6 +46,15 @@ const router = new express.Router();
  *
  **/
 
+router.get('/:username/to', async (req, res, next) => {
+    try {
+        const result = await User.messagesTo(req.params.username);
+        return res.json({"messages": result})
+    }
+    catch (err) {
+        return next(err);
+    }
+});
 
 /** GET /:username/from - get messages from user
  *
@@ -37,5 +65,15 @@ const router = new express.Router();
  *                 to_user: {username, first_name, last_name, phone}}, ...]}
  *
  **/
+
+router.get('/:username/from', async (req, res, next) => {
+    try {
+        const result = await User.messagesFrom(req.params.username);
+        return res.json({"messages": result})
+    }
+    catch (err) {
+        return next(err);
+    }
+});
 
 module.exports = router;
