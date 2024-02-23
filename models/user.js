@@ -45,15 +45,9 @@ class User {
        WHERE username = $1`,
       [username]
     );
-    let user = result.rows[0]
-    if (user) {
-      if (await bcrypt.compare(password, user.password) === true) {
-        return true;
-      }
-    } else {
-      return new ExpressError("Invalid username or password. Please try again", 400)
+    let user = result.rows[0];
+    return user && await bcrypt.compaire(password, user.password);
     }
-  }
 
   /** Update last_login_at for user */
 
